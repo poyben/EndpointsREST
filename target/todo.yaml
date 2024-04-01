@@ -1,0 +1,998 @@
+openapi: 3.0.0
+info:
+  title: API de ejemplo
+  version: "1.0"
+paths:
+  /users:
+    get:
+      tags: 
+      - Usuarios
+      summary: Listar todos los usuarios
+      responses:
+        200:
+          description: Una lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags: 
+        - Usuarios
+      summary: Crear un nuevo usuario
+      requestBody:
+        description: Datos del nuevo usuario
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        201:
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{userId}:
+    get:
+      tags: 
+        - Usuarios
+      summary: Obtener un usuario específico por su ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario a obtener
+      responses:
+        200:
+          description: Detalle del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      tags: 
+        - Usuarios
+      summary: Actualizar un usuario específico por su ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario a actualizar
+      requestBody:
+        description: Datos actualizados del usuario
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        200:
+          description: Usuario actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags: 
+        - Usuarios
+      summary: Eliminar un usuario específico por su ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario a eliminar
+      responses:
+        204:
+          description: Usuario eliminado exitosamente
+  /users/{userId}/phones:
+    get:
+      tags: 
+        - Telefonos
+      summary: Listar todos los teléfonos de un usuario
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario cuyos teléfonos se van a listar
+      responses:
+        200:
+          description: Una lista de teléfonos del usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Phone'
+    post:
+      tags: 
+        - Telefonos
+      summary: Añadir un nuevo teléfono a un usuario
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario al que se añadirá el teléfono
+      requestBody:
+        description: Datos del nuevo teléfono
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneInput'
+      responses:
+        201:
+          description: Teléfono añadido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phone'
+  /users/{userId}/phones/{phoneId}:
+    get:
+      tags: 
+        - Telefonos
+      summary: Obtener un teléfono específico de un usuario
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario dueño del teléfono
+        - name: phoneId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del teléfono a obtener
+      responses:
+        200:
+          description: Detalle del teléfono
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phone'
+    put:
+      tags: 
+        - Telefonos
+      summary: Actualizar un teléfono específico de un usuario
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario dueño del teléfono
+        - name: phoneId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del teléfono a actualizar
+      requestBody:
+        description: Datos actualizados del teléfono
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneInput'
+      responses:
+        200:
+          description: Teléfono actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phone'
+    delete:
+      tags: 
+        - Telefonos
+      summary: Eliminar un teléfono específico de un usuario
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario dueño del teléfono
+        - name: phoneId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del teléfono a eliminar
+      responses:
+        204:
+          description: Teléfono eliminado exitosamente
+  /tags:
+    get:
+      tags: 
+        - Tags
+      summary: Listar todas las etiquetas
+      responses:
+        200:
+          description: Una lista de todas las etiquetas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+    post:
+      tags: 
+        - Tags
+      summary: Crear una nueva etiqueta
+      requestBody:
+        description: Datos para crear una nueva etiqueta
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagInput'
+      responses:
+        201:
+          description: Etiqueta creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+  /tags/{tagId}:
+    get:
+      tags: 
+        - Tags
+      summary: Obtener una etiqueta específica por su ID
+      parameters:
+        - name: tagId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la etiqueta a obtener
+      responses:
+        200:
+          description: Detalles de la etiqueta solicitada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+    put:
+      tags: 
+        - Tags
+      summary: Actualizar una etiqueta específica por su ID
+      parameters:
+        - name: tagId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la etiqueta a actualizar
+      requestBody:
+        description: Datos actualizados de la etiqueta
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagInput'
+      responses:
+        200:
+          description: Etiqueta actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+    delete:
+      tags: 
+        - Tags
+      summary: Eliminar una etiqueta específica por su ID
+      parameters:
+        - name: tagId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la etiqueta a eliminar
+      responses:
+        204:
+          description: Etiqueta eliminada exitosamente
+  /projects:
+    get:
+      tags: 
+        - Proyectos
+      summary: Retorna una lista de proyectos
+      responses:
+        200:
+          description: Una lista de proyectos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+    post:
+      tags: 
+        - Proyectos
+      summary: Crea un nuevo proyecto
+      requestBody:
+        description: Datos del nuevo proyecto
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        201:
+          description: Proyecto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+    
+  /projects/{projectId}:
+    put:
+      tags: 
+        - Proyectos
+      summary: Actualizar un proyecto específico por su ID
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto a actualizar
+      requestBody:
+        description: Datos actualizados del proyecto
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectInput'
+      responses:
+        200:
+          description: Proyecto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+    delete:
+      tags: 
+        - Proyectos
+      summary: Eliminar un proyecto específico por su ID
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto a eliminar
+      responses:
+        204:
+          description: Proyecto eliminado exitosamente
+  /projects/{projectId}/details:
+    get:
+      tags: 
+        - Detalles
+      summary: Listar todos los detalles de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto cuyos detalles se van a listar
+      responses:
+        200:
+          description: Una lista de detalles del proyecto
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Detail'
+    post:
+      tags: 
+        - Detalles
+      summary: Crear un nuevo detalle dentro de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto en el que se creará el detalle
+      requestBody:
+        description: Datos del nuevo detalle
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetailInput'
+      responses:
+        201:
+          description: Detalle creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Detail'
+  /projects/{projectId}/details/{detailId}:
+    get:
+      tags: 
+        - Detalles
+      summary: Obtener un detalle específico de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto al que pertenece el detalle
+        - name: detailId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del detalle a obtener
+      responses:
+        200:
+          description: Detalles del detalle solicitado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Detail'
+    put:
+      tags: 
+        - Detalles
+      summary: Actualizar un detalle específico de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto al que pertenece el detalle
+        - name: detailId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del detalle a actualizar
+      requestBody:
+        description: Datos actualizados del detalle
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetailInput'
+      responses:
+        200:
+          description: Detalle actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Detail'
+    delete:
+      tags: 
+        - Detalles
+      summary: Eliminar un detalle específico de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto al que pertenece el detalle
+        - name: detailId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del detalle a eliminar
+      responses:
+        204:
+          description: Detalle eliminado exitosamente
+  /projects/{projectId}/codes:
+    get:
+      tags: 
+        - Codigos
+      summary: Listar todos los códigos de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto cuyos códigos se van a listar
+      responses:
+        200:
+          description: Una lista de códigos del proyecto
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Code'
+    post:
+      tags: 
+        - Codigos
+      summary: Crear un nuevo código dentro de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto en el que se creará el código
+      requestBody:
+        description: Datos del nuevo código
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodeInput'
+      responses:
+        201:
+          description: Código creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Code'
+  /projects/{projectId}/codes/{codeId}:
+    get:
+      tags: 
+        - Codigos
+      summary: Obtener un código específico de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto del código
+        - name: codeId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del código a obtener
+      responses:
+        200:
+          description: Detalle del código
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Code'
+    put:
+      tags: 
+        - Codigos
+      summary: Actualizar un código específico de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto del código
+        - name: codeId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del código a actualizar
+      requestBody:
+        description: Datos actualizados del código
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodeInput'
+      responses:
+        200:
+          description: Código actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Code'
+    delete:
+      tags: 
+        - Codigos
+      summary: Eliminar un código específico de un proyecto
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto del código
+        - name: codeId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del código a eliminar
+      responses:
+        204:
+          description: Código eliminado exitosamente
+  /blogs:
+    get:
+      tags: 
+        - Bolgs
+      summary: Listar todos los blogs
+      responses:
+        200:
+          description: Una lista de todos los blogs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Blog'
+    post:
+      tags: 
+        - Bolgs
+      summary: Crear un nuevo blog
+      requestBody:
+        description: Datos para crear un nuevo blog
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogInput'
+      responses:
+        201:
+          description: Blog creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+  /blogs/{blogId}:
+    get:
+      tags: 
+        - Bolgs
+      summary: Obtener un blog específico por su ID
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del blog a obtener
+      responses:
+        200:
+          description: Detalles del blog solicitado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+    put:
+      tags: 
+        - Bolgs
+      summary: Actualizar un blog específico por su ID
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del blog a actualizar
+      requestBody:
+        description: Datos actualizados del blog
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogInput'
+      responses:
+        200:
+          description: Blog actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+    delete:
+      tags: 
+        - Bolgs
+      summary: Eliminar un blog específico por su ID
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del blog a eliminar
+      responses:
+        204:
+          description: Blog eliminado exitosamente
+  /blogs/{blogId}/articles:
+    get:
+      tags: 
+        - Articulos
+      summary: Listar todos los artículos de un blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del blog cuyos artículos se van a listar
+      responses:
+        200:
+          description: Una lista de artículos del blog
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+    post:
+      tags: 
+        - Articulos
+      summary: Crear un nuevo artículo en un blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del blog en el que se creará el artículo
+      requestBody:
+        description: Datos para crear un nuevo artículo
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleInput'
+      responses:
+        201:
+          description: Artículo creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+  /blogs/{blogId}/articles/{articleId}:
+    get:
+      tags: 
+        - Articulos
+      summary: Obtener un artículo específico de un blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del blog al que pertenece el artículo
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del artículo a obtener
+      responses:
+        200:
+          description: Detalles del artículo solicitado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+    put:
+      tags: 
+        - Articulos
+      summary: Actualizar un artículo específico de un blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del blog al que pertenece el artículo
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del artículo a actualizar
+      requestBody:
+        description: Datos actualizados del artículo
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleInput'
+      responses:
+        200:
+          description: Artículo actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+    delete:
+      tags: 
+        - Articulos
+      summary: Eliminar un artículo específico de un blog
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del blog al que pertenece el artículo
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del artículo a eliminar
+      responses:
+        204:
+          description: Artículo eliminado exitosamente
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - nick
+        - name
+      properties:
+        id:
+          type: integer
+        nick:
+          type: string
+        name:
+          type: string
+    ProjectInput:
+      type: object
+      required:
+        - description
+        - language
+      properties:
+        description:
+          type: string
+        language:
+          type: string
+    UserInput:
+      type: object
+      required:
+        - nick
+        - name
+      properties:
+        nick:
+          type: string
+        name:
+          type: string
+    Phone:
+      type: object
+      properties:
+        id:
+          type: integer
+        value:
+          type: string
+        type:
+          type: string
+    PhoneInput:
+      type: object
+      properties:
+        value:
+          type: string
+        type:
+          type: string
+    Tag:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    TagInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        language:
+          type: string
+    Detail:
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    DetailInput:
+      type: object
+      properties:
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Code:
+      type: object
+      properties:
+        id:
+          type: integer
+        package:
+          type: string
+        file:
+          type: string
+    CodeInput:
+      type: object
+      properties:
+        package:
+          type: string
+        file:
+          type: string
+    Blog:
+      type: object
+      required:
+        - id
+        - title
+        - date
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        date:
+          type: string
+          format: date-time
+    BlogInput:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        date:
+          type: string
+          format: date-time
+    Article:
+      type: object
+      required:
+        - id
+        - title
+        - content
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        abstract:
+          type: string
+        content:
+          type: string
+    ArticleInput:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        title:
+          type: string
+        abstract:
+          type: string
+        content:
+          type: string
